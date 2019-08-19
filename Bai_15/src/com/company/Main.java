@@ -5,24 +5,19 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    public static void main(String[] args) {
-        String name;
-        Scanner sc = new Scanner(System.in);
-        name = sc.nextLine();
-        System.out.println(name);
+    public static String normalize(String text){
+        text = text.toLowerCase() ;
 
-        String text = sc.nextLine();
         // String test = text.replaceAll("^ +| +$|( )+", "$1");
         StringTokenizer tokenizer = new StringTokenizer(text, " ", false) ;
         String[] tokens = new String[tokenizer.countTokens()] ;
 
-        text = text.toLowerCase() ;
         for (int i = 0; i < tokens.length; i ++){
             tokens[i] = tokenizer.nextToken();
         }
 
         StringBuilder normalize = new StringBuilder();
-        boolean dot = false ;
+        boolean dot = true ;
         for (int i = 0; i < tokens.length; i++) {
             if (tokens[i].charAt(0) == '.') {
                 dot = true;
@@ -31,12 +26,13 @@ public class Main {
                 String concade = "" ;
                 if (i != 0)
                     concade = " ";
-                concade += tokens[i].substring(0, 1).toUpperCase() + tokens[i].substring(1) ;
                 if (dot) {
+                    concade += tokens[i].substring(0, 1).toUpperCase() + tokens[i].substring(1) ;
                     tokens[i] = concade;
                     dot = false;
                 }
                 else {
+                    concade += tokens[i];
                     tokens[i] = concade;
                 }
             }
@@ -44,7 +40,15 @@ public class Main {
             normalize.append(tokens[i]) ;
         }
 
-        String res = normalize.toString();
-        System.out.println(res);
+        return normalize.toString();
+    }
+    public static void main(String[] args) {
+        String name;
+        Scanner sc = new Scanner(System.in);
+        name = sc.nextLine();
+        System.out.println(name);
+
+        String text = sc.nextLine();
+        System.out.println(normalize(text));
     }
 }
